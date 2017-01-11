@@ -3,6 +3,9 @@ var ReactDOM = require('react-dom');
 var GoogleMapPolygonFilter = require('react-gmap-filter');
 
 var App = React.createClass({
+	componentDidMount: function() {
+		console.log(GoogleMapPolygonFilter);
+	},
 	render () {
 		return (
 			<div>
