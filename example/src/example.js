@@ -2,7 +2,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var GoogleMapPolygonFilter = require('react-gmap-filter');
 
-var markers = [
+const markers = [
 	{latLng:{lat:2.13815342634916,lng:41.39485570794}},
 	{latLng:{lat:2.13815342634236,lng:41.3948557079626}},
 	{latLng:{lat:2.13815342634946,lng:41.3948557079436}},
@@ -36,22 +36,40 @@ var markers = [
 	{latLng:{lat:2.161130905151367 ,lng:41.36843530931768}},
 	{latLng:{lat:2.156238555908203 ,lng:41.372042382668596}}
 ]
-var App = React.createClass({
-	componentDidMount: function() {
-		console.log(GoogleMapPolygonFilter);
-	},
-	render () {
-		return (
-			<div>
 
-				<GoogleMapPolygonFilter
-					toggleDraw={true}
-					markers={markers}
-					apiKey='AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
-				/>
-			</div>
-		);
+class App extends React.Component {
+	constructor () {
+		super();
+		this.state = {
+			filter:false,
+
+		};
 	}
-});
+	toggleDraw(){
+		this.setState({
+			filter:!this.state.filter ,
+
+		});
+
+	}
+
+	render() {
+		return (<div>
+			<button onClick={this.toggleDraw.bind(this)}>toggleDraw</button>
+			<div className="App">
+
+				<div >
+				</div>
+
+					<GoogleMapPolygonFilter
+						toggleDraw={this.state.filter}
+						markers={markers}
+						apiKey='AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
+					/>
+			</div>
+		</div>
+	);
+}
+}
 
 ReactDOM.render(<App />, document.getElementById('app'));
