@@ -31,7 +31,7 @@ export const ScriptCache = (function(global) {
 
           const cbName = `loaderCB${counter++}${Date.now()}`;
           let cb;
-          
+
           const cleanup = () => {
             if (global[cbName] && typeof global[cbName] === 'function') {
               global[cbName] = null;
