@@ -1,11 +1,12 @@
 var React = require('react');
 
-var GoogleMapPolygonFilter = React.createClass({
+var GoogleMapsPolygonFilter = React.createClass({
 	render () {
-		return <div>
-				<h1>GMAPS FILTER</h1>
-			GoogleMapPolygonFilter</div>;
-	}
-});
+		return (
+			<div>
+				MAP
+			</div>);
+		}
+	});
 
-export default GoogleMapPolygonFilter;
+	export default GoogleMapsPolygonFilter;
