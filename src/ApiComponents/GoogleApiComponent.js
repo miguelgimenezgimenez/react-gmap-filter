@@ -48,10 +48,11 @@ export const wrapper = (options) => (WrappedComponent) => {
     }
 
     componentWillMount() {
+
       this.scriptCache = cache({
         google: GoogleApi({
           apiKey: apiKey,
-          libraries: libraries
+          libraries: ['drawing']
         })
       });
     }
