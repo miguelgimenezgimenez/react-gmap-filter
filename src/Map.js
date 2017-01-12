@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-
 import isInside from 'point-in-polygon';
 
 const polygon=[];
 const markersArray=[];
+const insideMarkers=[];
+
 
 class Map extends React.Component {
   constructor () {
@@ -38,24 +39,15 @@ class Map extends React.Component {
     const google = this.props.google;
     let drawingManager = new google.maps.drawing.DrawingManager({
       drawingMode:             google.maps.drawing.OverlayType.POLYGON,
-      drawingControl: true,
-      drawingControlOptions: {
-        position: google.maps.ControlPosition.TOP_CENTER,
-        drawingModes: [
-          google.maps.drawing.OverlayType.POLYGON,
-          google.maps.drawing.OverlayType.POLYLINE,
-        ]
-      },
-      circleOptions: {
-        fillColor: '#ffff00',
-        fillOpacity: 1,
-        strokeWeight: 5,
-        clickable: false,
-        editable: true,
-        zIndex: 1
-      }
+      drawingControl: false,
+      polygonOptions:this.props.polygonOptions
     });
     drawingManager.setMap(this.map);
+
+//======================================================
+// Filter elements outside Polygon
+//======================================================
+
     google.maps.event.addListener(drawingManager, 'polygoncomplete', function (event) {
       event.getPath().forEach(coord=>{
         polygon.push([coord.lat(),coord.lng()]);
@@ -65,9 +57,15 @@ class Map extends React.Component {
         const y = markersArray[i].getPosition().lng();
         if (!isInside([x,y],polygon)) {
           markersArray[i].setMap(null)
+        } else {
+          insideMarkers.push(markersArray[i]);
         }
       }
-    })
+      if (this.props.handleReturnedMarkers) {
+        this.props.handleReturnedMarkers(insideMarkers);
+      }
+
+    }.bind(this))
   }
 
 
@@ -79,40 +77,46 @@ class Map extends React.Component {
 
       const mapRef = this.refs.map;
       const node = ReactDOM.findDOMNode(mapRef);
-
-      let zoom = 14;
-      let lat = 41.384279176844764;
-      let lng = 2.1526336669921875;
+      const {mapConfig}=this.props;
+      let {zoom} = mapConfig;
+      let {lat} = mapConfig;
+      let {lng} = mapConfig;
       const center = new maps.LatLng(lat, lng);
-      const mapConfig = Object.assign({}, {
+      const mapConfiguration = Object.assign({}, {
         center: center,
         zoom: zoom
       })
-      this.map = new maps.Map(node, mapConfig);
+      this.map = new maps.Map(node, mapConfiguration);
+//======================================================
+// DISPLAY MARKERS IN MAP
+//======================================================
       this.props.markers.forEach((flag)=>{
-        const marker = new maps.Marker({
+        const markerProps=({
+          ...flag,
           position: new google.maps.LatLng(flag.latLng.lng,flag.latLng.lat),
-          map: this.map,
-        });
-        markersArray.push(marker);
-      })
+          map: this.map,})
+          const marker = new maps.Marker(markerProps);
+          if (marker.onMarkerClick) {
+            google.maps.event.addListener(marker,'click',(event)=>{
+              marker.onMarkerClick(marker,event);
+            })
+          }
+          markersArray.push(marker);
+        })
+      }
     }
-  }
 
-  render() {
-    const style = {
-      width: '100vw',
-      height: '100vh'
+    render() {
+
+      return (
+        <div
+          style={this.props.mapStyle}
+          ref='map'>
+          Loading map...
+        </div>
+      )
     }
-    return (
-      <div
-        style={style}
-        ref='map'>
-        Loading map...
-      </div>
-    )
-  }
-};
+  };
 
 
-export default Map;
+  export default Map;
