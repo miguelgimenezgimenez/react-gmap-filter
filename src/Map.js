@@ -1,40 +1,45 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 
-import isInside from './pointInPoly';
+import isInside from 'point-in-polygon';
 
 const polygon=[];
 const markersArray=[];
 
 class Map extends React.Component {
+  constructor () {
+    super();
+    this.state = {
+      drawMode:false,
+    };
+  }
   componentDidMount() {
     this.loadMap();
+
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.google !== this.props.google) {
       this.loadMap();
+      if (this.props.drawMode) {
+        this.drawPolyline.bind(this)();
+      }
     }
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(this.props, 'props');
+    console.log(nextProps, 'nextprops');
     const google = this.props.google;
-
-
-    if (nextProps.toggleDraw) {
+    if (nextProps.drawMode && this.props.google) {
       this.drawPolyline.bind(this)();
     }
   }
 
-
-  renderMarkers(markers){
-
-  }
-
   drawPolyline(){
+    console.log(this);
     const google = this.props.google;
     let drawingManager = new google.maps.drawing.DrawingManager({
       drawingMode:             google.maps.drawing.OverlayType.POLYGON,
-
       drawingControl: true,
       drawingControlOptions: {
         position: google.maps.ControlPosition.TOP_CENTER,
@@ -58,7 +63,6 @@ class Map extends React.Component {
         polygon.push([coord.lat(),coord.lng()]);
       })
       for (let i = 0; i < markersArray.length; i++) {
-        console.log(markersArray[i].getPosition().lat());
         const x = markersArray[i].getPosition().lat();
         const y = markersArray[i].getPosition().lng();
         if (!isInside([x,y],polygon)) {
@@ -72,7 +76,6 @@ class Map extends React.Component {
   loadMap(){
     if (this.props && this.props.google) {
       // google is available
-      console.log(this.props);
       const {google} = this.props;
       const maps = google.maps;
 
@@ -88,7 +91,6 @@ class Map extends React.Component {
         zoom: zoom
       })
       this.map = new maps.Map(node, mapConfig);
-      console.log(maps);
       this.props.markers.forEach((flag)=>{
         const marker = new maps.Marker({
           position: new google.maps.LatLng(flag.latLng.lng,flag.latLng.lat),
