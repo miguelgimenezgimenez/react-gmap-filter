@@ -41,35 +41,32 @@ class App extends React.Component {
 	constructor () {
 		super();
 		this.state = {
-			filter:false,
+			drawMode:false,
 
 		};
 	}
 	toggleDraw(){
 		this.setState({
-			filter:!this.state.filter ,
+			drawMode:!this.state.drawMode ,
 
 		});
 
 	}
 
 	render() {
-		return (<div>
-			<button onClick={this.toggleDraw.bind(this)}>toggleDraw</button>
-			<div className="App">
-
-				<div >
+		return (
+			<div>
+				<button onClick={this.toggleDraw.bind(this)}>toggleDraw</button>
+				<div className="App">
 				</div>
-
-					<GoogleMapPolygonFilter
-						toggleDraw={this.state.filter}
-						markers={markers}
-						apiKey='AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
-					/>
+				<GoogleMapPolygonFilter
+					drawMode={this.state.drawMode}
+					markers={markers}
+					apiKey='AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
+				/>
 			</div>
-		</div>
-	);
-}
+		);
+	}
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));

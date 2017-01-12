@@ -21,7 +21,7 @@ class GoogleMapPolygonFilter extends React.Component{
 			<div >
 				<Map
 					google={this.props.google}
-					toggleDraw={this.props.toggleDraw}
+					drawMode={this.props.drawMode}
 					markers={this.props.markers}
 				/>
 			</div>
