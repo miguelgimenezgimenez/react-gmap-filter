@@ -42,8 +42,45 @@ var GoogleMapPolygonFilter = require('react-gmap-filter');
 
 ### Properties
 
-* __DOCUMENT PROPERTIES HERE__
+YOU WILL NEED TO PROVIDE A GOOGLE API KEY.
+the markers prop is an array of object containining a latLng object with lat and lng properties and any properties you want to provide which will be returned after the polygon filter.
+```
 
+GoogleMapPolygonFilter.propTypes={
+	apiKey:React.PropTypes.string.isRequired,
+	drawMode:React.PropTypes.bool,
+	markers:React.PropTypes.array,
+	mapConfig:React.PropTypes.object,
+	polygonOptions:React.PropTypes.object,
+	google:React.PropTypes.object, //is provided by wrapper
+	mapStyle:React.PropTypes.object,
+	handleReturnedMarkers:React.PropTypes.func,
+}
+GoogleMapPolygonFilter.defaultProps={
+	drawMode:true,
+	mapConfig:{
+		zoom:14,
+		lat:41.384279176844764,
+		lng:2.1526336669921875,
+
+	},
+	mapStyle:{
+		height:'600px',
+		width: '600px',
+	},
+	polygonOptions:{
+		fillColor: '#455A64',
+		fillOpacity: 0.3,
+		strokeColor:'#455A64',
+		strokeWeight:3,
+		clickable: true,
+		editable: true,
+		zIndex: 1
+	},
+	markers:[],
+}
+
+```
 ### Notes
 
 
