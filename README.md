@@ -30,12 +30,15 @@ npm install react-gmap-filter --save
 
 ## Usage
 
-__EXPLAIN USAGE HERE__
 
 ```
 var GoogleMapPolygonFilter = require('react-gmap-filter');
-
-<GoogleMapPolygonFilter>Example</GoogleMapPolygonFilter>
+<GoogleMapPolygonFilter
+					drawMode={true} //boolean that toggles draw mode (optional)
+					markers={markers} // array of objects containing a latLng property with lat and lng properties
+					apiKey='AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc' //REQUIRED
+					handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback fired when polygon is closed
+				/>
 ```
 
 ### Properties
@@ -44,7 +47,40 @@ var GoogleMapPolygonFilter = require('react-gmap-filter');
 
 ### Notes
 
-__ADDITIONAL USAGE NOTES__
+
+GoogleMapPolygonFilter.propTypes={
+	apiKey:React.PropTypes.string.isRequired,
+	drawMode:React.PropTypes.bool,
+	markers:React.PropTypes.array,
+	mapConfig:React.PropTypes.object,
+	polygonOptions:React.PropTypes.object,
+	google:React.PropTypes.object, //is provided by wrapper
+	mapStyle:React.PropTypes.object,
+	handleReturnedMarkers:React.PropTypes.func,
+}
+GoogleMapPolygonFilter.defaultProps={
+	drawMode:true,
+	mapConfig:{
+		zoom:14,
+		lat:41.384279176844764,
+		lng:2.1526336669921875,
+
+	},
+	mapStyle:{
+		height:'600px',
+		width: '600px',
+	},
+	polygonOptions:{
+		fillColor: '#455A64',
+		fillOpacity: 0.3,
+		strokeColor:'#455A64',
+		strokeWeight:3,
+		clickable: true,
+		editable: true,
+		zIndex: 1
+	},
+	markers:[],
+}
 
 
 ## Development (`src`, `lib` and the build process)
