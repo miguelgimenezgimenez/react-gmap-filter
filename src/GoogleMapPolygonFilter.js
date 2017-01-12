@@ -42,7 +42,7 @@ GoogleMapPolygonFilter.propTypes={
 	markers:React.PropTypes.array,
 	mapConfig:React.PropTypes.object,
 	polygonOptions:React.PropTypes.object,
-	google:React.PropTypes.object.isRequired, //is provided by wrapper
+	google:React.PropTypes.object, //is provided by wrapper
 	mapStyle:React.PropTypes.object,
 	handleReturnedMarkers:React.PropTypes.func,
 }
