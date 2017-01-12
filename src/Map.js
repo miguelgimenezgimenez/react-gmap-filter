@@ -27,8 +27,7 @@ class Map extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(this.props, 'props');
-    console.log(nextProps, 'nextprops');
+
     const google = this.props.google;
     if (nextProps.drawMode && this.props.google) {
       this.drawPolyline.bind(this)();
@@ -36,7 +35,6 @@ class Map extends React.Component {
   }
 
   drawPolyline(){
-    console.log(this);
     const google = this.props.google;
     let drawingManager = new google.maps.drawing.DrawingManager({
       drawingMode:             google.maps.drawing.OverlayType.POLYGON,
