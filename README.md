@@ -1,7 +1,6 @@
-# GoogleMapPolygonFilter
+# GoogleMap Draw Polygon Filter
 
-__COMPONENT DESCRIPTION GOES HERE__
-
+React component that includes a google map which allows the possibility to draw a polygon and output and filter the markers within the polygon
 
 ## Demo & Examples
 
